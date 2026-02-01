@@ -142,7 +142,7 @@ void Problem_file(char** main_array[],int* counter, FILE* fPtr, FILE* fp_out, Gr
 		}
 	}
 	//free graphs
-	for(i = 0; i<46; i++){
+	for(i = 0; i<46;i++){
 		if(flags[i]==1){
 			free_graph(graphs[i]);
 		}

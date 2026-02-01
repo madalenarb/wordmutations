@@ -17,14 +17,14 @@ char*** array(FILE* fp_dict,char*** main_array,int* counter)
 {
 
 	//counter_2: counter to make the array
-	int counter_2[46];
+	int counter_2[47];
 
 	int length;
 	char buffer[48];
 	int i;
 
 	//initialize arrays
-	for (i = 0; i < 46; i++)
+	for (i = 0; i < 47; i++)
 	{
 		counter[i] = 0;
 		main_array[i] = NULL;
@@ -41,7 +41,7 @@ char*** array(FILE* fp_dict,char*** main_array,int* counter)
 	rewind(fp_dict);
 
 	//if there are words of a certain size, it creates a 2D array for each size
-	for (i = 0; i < 46; i++)
+	for (i = 0; i < 47; i++)
 	{
 		if (counter[i] != 0)
 		{

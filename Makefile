@@ -1,28 +1,32 @@
 CC = gcc
 CFLAGS = -Wall -std=c99 -O3
+OBJDIR = obj
 
 default: wrdmttns
 
-wrdmttns: main.o file.o array.o graph.o heap.o dijkstra.o
-	$(CC) $(CFLAGS) -o wrdmttns main.o file.o array.o graph.o heap.o dijkstra.o
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
-main.o: main.c file.h array.h graph.h heap.h
-	$(CC) $(CFLAGS) -c main.c
+wrdmttns: $(OBJDIR)/main.o $(OBJDIR)/file.o $(OBJDIR)/array.o $(OBJDIR)/graph.o $(OBJDIR)/heap.o $(OBJDIR)/dijkstra.o
+	$(CC) $(CFLAGS) -o wrdmttns $(OBJDIR)/main.o $(OBJDIR)/file.o $(OBJDIR)/array.o $(OBJDIR)/graph.o $(OBJDIR)/heap.o $(OBJDIR)/dijkstra.o
 
-file.o: file.c file.h
-	$(CC) $(CFLAGS) -c file.c
+$(OBJDIR)/main.o: main.c file.h array.h graph.h heap.h | $(OBJDIR)
+	$(CC) $(CFLAGS) -c main.c -o $(OBJDIR)/main.o
 
-array.o: array.c array.h
-	$(CC) $(CFLAGS) -c array.c
+$(OBJDIR)/file.o: file.c file.h | $(OBJDIR)
+	$(CC) $(CFLAGS) -c file.c -o $(OBJDIR)/file.o
 
-graph.o: graph.c graph.h
-	$(CC) $(CFLAGS) -c graph.c 
+$(OBJDIR)/array.o: array.c array.h | $(OBJDIR)
+	$(CC) $(CFLAGS) -c array.c -o $(OBJDIR)/array.o
 
-heap.o: heap.c heap.h
-	$(CC) $(CFLAGS) -c heap.c
+$(OBJDIR)/graph.o: graph.c graph.h | $(OBJDIR)
+	$(CC) $(CFLAGS) -c graph.c -o $(OBJDIR)/graph.o
 
-dijkstra.o:  dijkstra.c dijkstra.h
-	$(CC) $(CFLAGS) -c dijkstra.c
+$(OBJDIR)/heap.o: heap.c heap.h | $(OBJDIR)
+	$(CC) $(CFLAGS) -c heap.c -o $(OBJDIR)/heap.o
+
+$(OBJDIR)/dijkstra.o:  dijkstra.c dijkstra.h | $(OBJDIR)
+	$(CC) $(CFLAGS) -c dijkstra.c -o $(OBJDIR)/dijkstra.o
 
 clean:
-	rm -rf *.o $(wrdmttns) *~
+	rm -rf $(OBJDIR) wrdmttns *~

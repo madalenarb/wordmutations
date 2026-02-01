@@ -34,21 +34,15 @@ void dijkstra(FILE* fp, Graph* graph, char** main_array, int src,int end, int ma
     //create heap
 	Heap* h = createHeap(V);
 
-    //create array of heap nodes
-	HeapNode* pointerarray[V];
-
     //initialize heap nodes
 	for (int v = 0; v < V; v++)
 	{
 		cost[v] = INT_MAX;
 		h->array[v] = newHeapNode(v,cost[v]);
 		h->pos[v] = v;
-		pointerarray[v]= h->array[v];
 	}
-	free(h->array[src]);
-    //create source heap node
-	h->array[src] = newHeapNode(src, cost[src]);
-	pointerarray[src] = h->array[src];
+    //update source node cost
+	h->array[src]->cost = 0;
 	h->pos[src] = src;
 	cost[src] = 0;
 	decreaseKey(h, src, cost[src]);
@@ -87,14 +81,17 @@ void dijkstra(FILE* fp, Graph* graph, char** main_array, int src,int end, int ma
 			}
 			pCrawl = pCrawl->next;
 		}
+		//free the extracted node
+		free(heapNode);
 	}
     //print solution
 	printSolution(fp, src, end, cost, prev,V, main_array);
 
-    //free heap
+    //free remaining heap nodes that weren't extracted (shouldn't be any if algorithm completed)
 	for (int v = 0; v < V; v++)
 	{
-		free(pointerarray[v]);
+		if (v < h->size && h->array[v] != NULL)
+			free(h->array[v]);
 	}
 	free(h->pos);
 	free(h->array);
