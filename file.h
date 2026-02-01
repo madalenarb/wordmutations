@@ -27,6 +27,7 @@ FILE* output_file(char* file_name);
 void write_output(FILE* fp, char* first_word, char* last_word, int n, int n_result1, int n_result2);
 //void Problem_file_2(char** main_array[], int* counter, FILE* fPtr, FILE* fp_out);
 void Problem_file(char** main_array[],int* counter, FILE* fPtr, FILE* fp_out, Graph* graphs[46]);
+void Problem_file_optimized(char** main_array[],int* counter, FILE* fPtr, FILE* fp_out, Graph* graphs[46], int mode);
 void printSolution(FILE* fp, int src, int i, int* dist, int* parents, int V, char** mainArr);
 void printArr(int dist[], int n);
 

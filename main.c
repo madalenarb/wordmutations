@@ -21,6 +21,14 @@
 #include "file.h"
 #include "graph.h"
 #include "heap.h"
+
+// Optimization mode:
+// Mode 0: Standard Dijkstra with early termination
+// Mode 1: A* with heuristic
+// Mode 2: Lazy graph construction
+// Mode 3: Auto-select based on graph characteristics (RECOMMENDED)
+#define OPTIMIZATION_MODE 3
+
 /*main*/
 int main(int argc, char* argv[])
 {
@@ -29,7 +37,8 @@ int main(int argc, char* argv[])
 	FILE* fp_out;
 	char* file_pals, *file_dict;
 	const char* file_pals_ext, * file_dict_ext;
-	if (argc != 3) {
+	int selected_mode = OPTIMIZATION_MODE;
+	if (argc != 3 && argc != 4) {
 	 	exit(0);
 	}
 	file_dict = argv[1];
@@ -57,6 +66,13 @@ int main(int argc, char* argv[])
 	 	exit(0);
 	}
 
+	if (argc == 4) {
+		int mode_arg = atoi(argv[3]);
+		if (mode_arg >= 0 && mode_arg <= 3) {
+			selected_mode = mode_arg;
+		}
+	}
+
 	//main_array: strings array with words from the dictionary, sorted by size
 	char** main_array[47];
 
@@ -70,7 +86,11 @@ int main(int argc, char* argv[])
 
 	fp_out = output_file(file_pals);
 
-	Problem_file(main_array, counter, fp_pals, fp_out,graphs);
+	// Use optimized version with A* (mode 1) for better performance
+	// Mode 0 = Standard Dijkstra with early termination
+	// Mode 1 = A* with heuristic (recommended)
+	// Mode 2 = Lazy graph construction (best for sparse queries)
+	Problem_file_optimized(main_array, counter, fp_pals, fp_out, graphs, selected_mode);
 
 	free_all(main_array, counter);
 	fclose(fp_pals);

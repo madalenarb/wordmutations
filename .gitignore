@@ -1,2 +1,4 @@
 obj/
 wrdmttns
+*.txt
+*.log

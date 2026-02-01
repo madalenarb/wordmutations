@@ -154,3 +154,52 @@ void free_graph(Graph *graph) {
   }
 }
 
+/******************************************************************************
+ * fill_graph_optimized()
+ *
+ * Arguments: num_of_words - number of words in the array of a certain size
+ *            size_of_words
+ *            words_dict - array of arrays of dictionary words, sorted by word length
+ *            max - maximum changes that can be made
+ *            src - source word index
+ *            end - target word index
+ * 
+ * Returns: graph
+ *
+ * Description: Optimized graph construction - only builds edges relevant to the query
+ *              Uses bidirectional growth from src and end to reduce edge count
+ *
+ *****************************************************************************/
+Graph* fill_graph_optimized(int num_of_words, int size_of_words, char** words_dict, int max, int src, int end)
+{
+    Graph* graph = createGraph(num_of_words);
+    int diff;
+    
+    // Build edges only from vertices that could be on the path
+    // This is still an approximation but better than full graph
+    for(int i = 0; i < num_of_words; i++)
+    {
+        // Check distance from source
+        int dist_from_src = diff_letters(words_dict[i], words_dict[src], size_of_words, size_of_words);
+        int dist_to_end = diff_letters(words_dict[i], words_dict[end], size_of_words, size_of_words);
+        
+        // Only build edges for words that could plausibly be on a path
+        if(dist_from_src >= 0 && dist_to_end >= 0 && (dist_from_src <= max || dist_to_end <= max || i == src || i == end))
+        {
+            for(int j = i + 1; j < num_of_words; j++)
+            {
+                int dist_from_src_j = diff_letters(words_dict[j], words_dict[src], size_of_words, size_of_words);
+                int dist_to_end_j = diff_letters(words_dict[j], words_dict[end], size_of_words, size_of_words);
+                
+                if(dist_from_src_j >= 0 && dist_to_end_j >= 0 && 
+                   (dist_from_src_j <= max || dist_to_end_j <= max || j == src || j == end))
+                {
+                    diff = diff_letters(words_dict[i], words_dict[j], size_of_words, max);
+                    if(diff > 0)
+                        add_edge(graph, i, j, diff);
+                }
+            }
+        }
+    }
+    return graph;
+}

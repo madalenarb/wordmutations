@@ -29,6 +29,15 @@ After compilation, you can run the program as follows:
 - `<dictionary_file>.dict` should be replaced with the path to your dictionary file.
 - `<pairs_file>.pals` is the file containing word pairs and transformation rules.
 
+## GUI (Windows/WSL)
+A simple GUI is available for selecting files and modes and viewing the word evolution output.
+
+**Run the GUI:**
+- On Windows (PowerShell): `python gui_menu.py`
+- On WSL (Linux): `python3 gui_menu.py`
+
+The GUI runs the compiled `wrdmttns` binary and automatically loads the generated `.paths` output into the window.
+
 ## Project Structure
 - `main.c`: The main program file.
 - `dijkstra.c` and `dijkstra.h`: Implementation of the Dijkstra's algorithm for path finding.
@@ -42,6 +51,15 @@ After compilation, you can run the program as follows:
 - Implementation of Dijkstra's algorithm for optimal path calculation.
 - Dynamic handling of dictionaries and word pairs.
 - Cost calculation based on the number of character changes.
+
+# To benchmark
+The project includes a benchmarking feature to evaluate performance with different dictionary sizes and transformation rules. You can modify the input files to test various scenarios.
+
+1. Use benchmark.sh script to run benchmarks:
+   ```
+   chmod +x benchmark.sh
+   ./benchmark.sh
+   ```
 
 ## Credits
 Developed as an assignment for the Algorithms and Data Structures course.

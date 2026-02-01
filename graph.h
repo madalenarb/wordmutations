@@ -38,5 +38,6 @@ Graph* createGraph(int v);
 void free_graphs(Graph* graphs[46]);
 void free_graph(Graph *graph);
 Graph* fill_graph(int num_of_words, int size_of_words, char** words_dict,int max);
+Graph* fill_graph_optimized(int num_of_words, int size_of_words, char** words_dict, int max, int src, int end);
 
 # endif
